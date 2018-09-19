@@ -1,0 +1,1 @@
+# Implementação Simplex fase 1 de forma orientada a objetos.
