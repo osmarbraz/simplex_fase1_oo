@@ -203,18 +203,19 @@ public class Simplex {
      /**
      * Testa a otimalidade verificando se é a solução básica fáctivel.
      * 
+     * Procura algum valor negativo em c(linha 0).
+     * 
      * Como os coeficientes de x1 e x2  são negativos na linha 0, 
      *  a SBF(Solução Básica Factível) atual não é ótima, pois um 
-     *  incremento positivo em x1  ou x2  resultará em SBF adjacente 
+     *  incremento positivo em x1 ou x2  resultará em SBF adjacente 
      *  melhor do que a SBF atual.
     */
     private boolean testarOtimalidade(double[] c) {
         int k = 0;
         boolean temNegativo = false;
-        // verifica se x < 0
         //Se existir um elemento negativo interrompe o laço
         while ((k < c.length) && (temNegativo==false)){
-            // verifica se a[M][x] < 0
+            // verifica se a[M][k] < 0
             // M é a última linha da matriz a
             if (a[M][k] < 0.0){
                 temNegativo = true;                
@@ -222,8 +223,8 @@ public class Simplex {
             k = k + 1;
         }        
         return temNegativo;
-    }
-
+    }    
+    
     /**
      * Mostra o tableau.
      */
