@@ -203,9 +203,9 @@ public class Simplex {
      /**
      * Testa a otimalidade verificando se é a solução básica fáctivel.
      * 
-     * Procura algum valor negativo em c(linha 0).
+     * Procura algum valor negativo em c(linha M).
      * 
-     * Como os coeficientes de x1 e x2  são negativos na linha 0, 
+     * Como os coeficientes de x1 e x2  são negativos na linha M, 
      *  a SBF(Solução Básica Factível) atual não é ótima, pois um 
      *  incremento positivo em x1 ou x2  resultará em SBF adjacente 
      *  melhor do que a SBF atual.
