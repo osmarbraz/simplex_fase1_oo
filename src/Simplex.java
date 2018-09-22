@@ -23,18 +23,18 @@
 
 public class Simplex {
 
-    private double[][] a;   // tableau
-        // linha 0 até m-1 = restrições 
-        // linha m   = função objetivo
-        // coluna 0 até n-1 = variáveis
-        // coluna n até n+m-1 = variáveis de folga
-        // coluna n+m = constante das restrições    
+    private double[][] a;       // tableau
+                                // linha 0 até m-1 = restrições 
+                                // linha m = função objetivo
+                                // coluna 0 até n-1 = variáveis
+                                // coluna n até n+m-1 = variáveis de folga
+                                // coluna n+m = constante das restrições    
 
-    private int m;          // número de restrições
-    private int n;          // número de variáveis 
-    private int iteracoes ; // número de iterações
-    private int[] base;     // base[i] = variável básica correspondente a linha i
-                            // Necessário somente para imprimir a solução.
+    private int m;              // número de restrições
+    private int n;              // número de variáveis 
+    private int iteracoes ;     // número de iterações
+    private int[] base;         // base[i] = variável básica correspondente a linha i
+                                // Necessário somente para imprimir a solução.
       
     /**
      * Monta tableau original.
@@ -48,7 +48,9 @@ public class Simplex {
         m = b.length;
         // Quantidade de variáveis do problema
         n = c.length;
-        // Uma linha e coluna adicional para função objetivo
+        //Adição de 1 linha para função objetivo z
+        //Adição de m colunas para as variáveis de folga
+        //Adição de 1 coluna para a constante das restrições
         a = new double[m + 1][n + m + 1];
         // Cópia as restrições para a matriz A para a
         for (int i = 0; i < m; i++) {
