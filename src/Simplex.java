@@ -25,7 +25,7 @@ public class Simplex {
 
     private double[][] a;   // tableau
     private int m;          // número de restrições
-    private int n;          // número de variáveis não básicas
+    private int n;          // número de variáveis 
     private int iteracoes ; // número de iterações
     private int[] base;     // base[i] = variável básica correspondente a linha i
                             // Necessário somente para imprimir a solução.
@@ -38,9 +38,9 @@ public class Simplex {
      * @param c Coeficientes da função objetivo.
      */    
     public void montaTableau(double[][] A, double[] b, double[] c){
-        //Quantidade de variáveis não básicas ou seja a quantidade de restrições do problema
+        //Quantidade de restrições do problema
         m = b.length;
-        //Quantidade de variáveis não básicas
+        //Quantidade de variáveis do problema
         n = c.length;
         //Uma linha e coluna adicional para função objetivo
         a = new double[m + 1][n + m + 1];
@@ -50,9 +50,9 @@ public class Simplex {
                 a[i][j] = A[i][j];
             }
         }
-        //Adiciona 1 para a diagonal principal das variaveis básicas
+        //Adiciona 1 para a diagonal principal das variaveis não básicas
         //Considera a partir de n+1 onde n é a quantidade de variáveis 
-        //não básicas até m que é a quantidade de variáveis básicas
+        //básicas até m que é a quantidade de variáveis não básicas
         for (int i = 0; i < m; i++) {
             a[i][n + i] = 1.0;
         }
