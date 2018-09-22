@@ -67,7 +67,7 @@ public class Simplex {
         // Adiciona a constante da função objetivo para a linha m
         for (int j = 0; j < n; j++) {
             //Inverte o sinal do coeficiente c
-            a[m][j] = -c[j];
+            a[m][j] = c[j];
         }
         
         // Adiciona constante das restrições a coluna n+m
@@ -95,8 +95,8 @@ public class Simplex {
         //Conta as iterações
         iteracoes = 0;
         // Passo 2 - Verifica condições de otimalidade
-        while (testarOtimalidade(c)==true) {
-            
+        while (testarOtimalidade()==true) {
+                       
             // Passo 2.1 Regra de Entrada 
             // encontra a coluna que deve entrar na base
             int q = encontraVariavelEntrada();
@@ -106,7 +106,7 @@ public class Simplex {
             int p = encontraVariavelSaida(q);
             
             // Passo 3 Recalcula a base
-            recalculaBase(p, q);
+            pivoteamento(p, q);
             
             // atualiza a base guardando a variável que entrou na base.
             if (p!=-1){
@@ -133,7 +133,7 @@ public class Simplex {
                 maior =  Math.abs(a[m][j]);
                 colunaMaior = j;
             } else {
-                // Maior maior absoluto
+                // Maior valor absoluto
                 if (Math.abs(a[m][j]) > maior) {
                     maior =  Math.abs(a[m][j]);
                     colunaMaior = j;
@@ -179,7 +179,7 @@ public class Simplex {
      * @param p Linha do pivô.
      * @param q Coluna do pivô.
      */
-    private void recalculaBase(int p, int q) {
+    private void pivoteamento(int p, int q) {
         // Calcula somente se existir um pivô        
         // p e q devem ser diferente de -1
         if ((p!=-1) && (q != -1)){    
@@ -209,7 +209,7 @@ public class Simplex {
             }
         }
     }
-
+    
     /**
      * Retorna o valor ótimo da função objetivo.
      * 
@@ -230,11 +230,11 @@ public class Simplex {
      * incremento positivo em x1 ou x2  resultará em SBF adjacente 
      * melhor do que a SBF atual.
     */
-    private boolean testarOtimalidade(double[] c) {
+    private boolean testarOtimalidade() {
         int k = 0;
         boolean temNegativo = false;
         // Se existir um elemento negativo interrompe o laço
-        while ((k < c.length) && (temNegativo==false)){
+        while ((k < n + m) && (temNegativo==false)){
             // verifica se a[m][k] < 0
             // m é a última linha da matriz a
             if (a[m][k] < 0.0){
@@ -263,7 +263,7 @@ public class Simplex {
             if (i>=m){
                 System.out.printf("z =\t");
             } else {
-                System.out.printf("x["+(n+i)+"] =\t");
+                System.out.printf("x["+base[i]+"] =\t");
             }
             for (int j = 0; j <= n + m; j++) {
                 System.out.printf("\t%7.2f ", a[i][j]);
@@ -298,7 +298,7 @@ public class Simplex {
         // Variáveis básicas
         double[] x = getPrimal();
         for (int i = 0; i < x.length; i++) {
-            System.out.println("x[" + (i+1) + "] = " + x[i]);
+            System.out.println("x[" + i + "] = " + x[i]);
         }                
     }
 

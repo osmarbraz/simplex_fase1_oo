@@ -55,11 +55,11 @@ public class Principal {
             {1, 0},
             {0, 2},
             {3, 2}
-        };        
-        // Coeficientes da função objetivo
-        double[] c = {3, 5};
+        };                
         // Constante das equações de A 
         double[] b = {4, 12, 18};
+        // Coeficientes da função objetivo
+        double[] c = {-3, -5};
         // Executa o teste para o problema
         teste(A, b, c);
     }
@@ -92,7 +92,7 @@ public class Principal {
         // Constante das equações de A 
         double[] b = {1200, 40, 30};
         // Coeficientes da função objetivo
-        double[] c = {1000, 1800};
+        double[] c = {-1000, -1800};
         // Executa o teste para o problema
         teste(A, b, c);
     }
