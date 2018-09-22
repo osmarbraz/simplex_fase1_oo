@@ -24,6 +24,12 @@
 public class Simplex {
 
     private double[][] a;   // tableau
+        // linha 0 até m-1 = restrições 
+        // linha m   = função objetivo
+        // coluna 0 até n-1 = variáveis
+        // coluna n até n+m-1 = variáveis de folga
+        // coluna n+m = constante das restrições    
+
     private int m;          // número de restrições
     private int n;          // número de variáveis 
     private int iteracoes ; // número de iterações
@@ -38,36 +44,36 @@ public class Simplex {
      * @param c Coeficientes da função objetivo.
      */    
     public void montaTableau(double[][] A, double[] b, double[] c){
-        //Quantidade de restrições do problema
+        // Quantidade de restrições do problema
         m = b.length;
-        //Quantidade de variáveis do problema
+        // Quantidade de variáveis do problema
         n = c.length;
-        //Uma linha e coluna adicional para função objetivo
+        // Uma linha e coluna adicional para função objetivo
         a = new double[m + 1][n + m + 1];
-        //Copia as restrições para a matriz A para a
+        // Cópia as restrições para a matriz A para a
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
                 a[i][j] = A[i][j];
             }
         }
-        //Adiciona 1 para a diagonal principal das variaveis não básicas
-        //Considera a partir de n+1 onde n é a quantidade de variáveis 
-        //básicas até m que é a quantidade de variáveis não básicas
+        // Adiciona 1 para a diagonal principal das variaveis não básicas
+        // Considera a partir de n+1 onde n é a quantidade de variáveis 
+        // básicas até m que é a quantidade de variáveis não básicas
         for (int i = 0; i < m; i++) {
             a[i][n + i] = 1.0;
         }
-        //Adiciona a constante da função objetivo para a linha m
+        // Adiciona a constante da função objetivo para a linha m
         for (int j = 0; j < n; j++) {
             //Inverte o sinal do coeficiente c
             a[m][j] = -c[j];
         }
         
-        //Adiciona constante das restrições a coluna n+m
+        // Adiciona constante das restrições a coluna n+m
         for (int i = 0; i < m; i++) {
             a[i][n + m] = b[i];
         }
 
-        //Vetor auxiliar para imprimir a solução das variáveis básicas
+        // Vetor auxiliar para imprimir a solução das variáveis básicas
         base = new int[m];
         for (int i = 0; i < m; i++) {
             base[i] = n + i;            
@@ -81,7 +87,7 @@ public class Simplex {
      * @param c Coeficientes da função objetivo.
      */
     public void solver(double[][] A, double[] b, double[] c) {
-        //Passo 1 - Monta o Tableau
+        // Passo 1 - Monta o Tableau
         montaTableau(A,b,c);
         
         //Conta as iterações
@@ -89,15 +95,15 @@ public class Simplex {
         // Passo 2 - Verifica condições de otimalidade
         while (testarOtimalidade(c)==true) {
             
-            //Passo 2.1 Regra de Entrada 
-            //encontra a coluna que deve entrar na base
+            // Passo 2.1 Regra de Entrada 
+            // encontra a coluna que deve entrar na base
             int q = encontraVariavelEntrada();
             
-            //Passo 2.2 Regra de Saída
+            // Passo 2.2 Regra de Saída
             // encontra a linha que deve sair considerando a variável de entrada
             int p = encontraVariavelSaida(q);
             
-            //Passo 3 Recalcula a base
+            // Passo 3 Recalcula a base
             recalculaBase(p, q);
             
             // atualiza a base guardando a variável que entrou na base.
@@ -118,14 +124,14 @@ public class Simplex {
     private int encontraVariavelEntrada() {
         double maior = 0;
         int colunaMaior = -1;
-        //Procura somente nas variáveis não base
+        // Procura somente nas variáveis não base
         for (int j = 0; j < n; j++) {            
-            //Usa o primeiro elemento como maior para inicializar p
+            // Usa o primeiro elemento como maior para inicializar p
             if (colunaMaior==-1){
                 maior =  Math.abs(a[m][j]);
                 colunaMaior = j;
             } else {
-                //Maior maior absoluto
+                // Maior maior absoluto
                 if (Math.abs(a[m][j]) > maior) {
                     maior =  Math.abs(a[m][j]);
                     colunaMaior = j;
@@ -147,9 +153,9 @@ public class Simplex {
         // Posição do pivô deve ser diferente de -1
         if (k != -1){
             for (int i = 0; i < m; i++) {
-                //aik deve ser positivo
+                // aik deve ser positivo
                 if (a[i][k] > 0) {
-                    //Usa o primeiro elemento maior que 0 como menor para inicializar p
+                    // Usa o primeiro elemento maior que 0 como menor para inicializar p
                     if (linhaMenor==-1){
                         linhaMenor = i;
                         menor = a[i][n+ m] / a[i][k];
@@ -172,29 +178,29 @@ public class Simplex {
      * @param q Coluna do pivô.
      */
     private void recalculaBase(int p, int q) {
-        //Calcula somente se existir um pivô        
+        // Calcula somente se existir um pivô        
         // p e q devem ser diferente de -1
         if ((p!=-1) && (q != -1)){    
             
-            //Calcula a linha do pivô
-            //Guarda o valor do pivô
+            // Calcula a linha do pivô
+            // Guarda o valor do pivô
             double valorPivo = a[p][q];
-            //Percorre a coluna
+            // Percorre a coluna
             for (int j = 0; j <= n + m; j++) {
                 //Recalcula o elemento da linha a[p][j]
                 a[p][j] = a[p][j]/valorPivo;
             }
             
             // Recalcula as outras linhas da matriz a menos a linha p            
-            //Percorre as linhas
+            // Percorre as linhas
             for (int i = 0; i <= m; i++) {
                 //Menos para linha do pivô
                 if (i != p) {      
-                    //Guarda o coeficiente da coluna do pivô
+                    // Guarda o coeficiente da coluna do pivô
                     double coeficienteColunaPivo = a[i][q];
-                    //Percorre a coluna
+                    // Percorre a coluna
                     for (int j = 0; j <= n + m; j++) {
-                        //Recalcula o elemento
+                        // Recalcula o elemento
                         a[i][j] = a[i][j] - (coeficienteColunaPivo * a[p][j]);
                     }
                 }
@@ -208,7 +214,7 @@ public class Simplex {
      * @return Valor ótimo da função objetivo.
      */
     public double getValor() {
-        //Última linha e coluna da matriz a
+        // Última linha e coluna da matriz a
         return a[m][n + m];
     }
 
@@ -218,14 +224,14 @@ public class Simplex {
      * Procura algum valor negativo em c(linha m).
      * 
      * Como os coeficientes de x1 e x2  são negativos na linha m, 
-     *  a SBF(Solução Básica Factível) atual não é ótima, pois um 
-     *  incremento positivo em x1 ou x2  resultará em SBF adjacente 
-     *  melhor do que a SBF atual.
+     * a SBF(Solução Básica Factível) atual não é ótima, pois um 
+     * incremento positivo em x1 ou x2  resultará em SBF adjacente 
+     * melhor do que a SBF atual.
     */
     private boolean testarOtimalidade(double[] c) {
         int k = 0;
         boolean temNegativo = false;
-        //Se existir um elemento negativo interrompe o laço
+        // Se existir um elemento negativo interrompe o laço
         while ((k < c.length) && (temNegativo==false)){
             // verifica se a[m][k] < 0
             // m é a última linha da matriz a
@@ -242,7 +248,7 @@ public class Simplex {
      */
     public void mostraTableau() {
         System.out.println("m = " + m + " e m = " + n);        
-        //Cabeçalho do tableau
+        // Cabeçalho do tableau
         System.out.printf("\t\t");
         for (int i = 0; i < n + m; i++) {
             System.out.printf("   x[%d]\t\t",i);
@@ -250,7 +256,7 @@ public class Simplex {
         System.out.printf("      b");
         System.out.println();
 
-        //Matriz a        
+        // Matriz a        
         for (int i = 0; i <= m; i++) {
             if (i>=m){
                 System.out.printf("z =\t");
@@ -268,7 +274,7 @@ public class Simplex {
     /**
      * Retorna o vetor da solução primal.
      * 
-     * @return Vetor com a solução do problema das variáveis básica.
+     * @return Vetor com a solução do problema das variáveis básicas.
      */
     public double[] getPrimal() {
         double[] x = new double[n];
@@ -284,10 +290,10 @@ public class Simplex {
      * Imprime a solução do problema.
      */
     public void imprimeSolucao(){
-        //Função objetivo        
+        // Função objetivo        
         System.out.println("A solução foi encontrada com " + getIteracoes() + " iterações");
         System.out.println("   z = " + getValor());
-        //Variáveis básicas
+        // Variáveis básicas
         double[] x = getPrimal();
         for (int i = 0; i < x.length; i++) {
             System.out.println("x[" + (i+1) + "] = " + x[i]);

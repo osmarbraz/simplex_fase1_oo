@@ -12,22 +12,22 @@ public class Principal {
      * @param c Coeficientes da função objetivo.
      */
     public static void teste(double[][] A, double[] b, double[] c) {
-        //Instancia o Simplex        
+        // Instancia o Simplex        
         Simplex lp = new Simplex();        
         
-        //Monta o tableau
+        // Monta o tableau
         lp.montaTableau(A, b, c);
         
         System.out.println("\n>>>> Tableau Inicial");                
         lp.mostraTableau();
         
-        //Executa o solver
+        // Executa o solver
         lp.solver(A, b, c);
         
         System.out.println("\n>>>> Tableau Final");                
         lp.mostraTableau();
         
-        //Imprime a solução
+        // Imprime a solução
         lp.imprimeSolucao();
     }
 
@@ -50,17 +50,17 @@ public class Principal {
      *  3   2   0   0   1   18
      */
     public static void testeCaso1() {
-        //Matriz A das equações de restrições
+        // Matriz A das equações de restrições
         double[][] A = {
             {1, 0},
             {0, 2},
             {3, 2}
         };        
-        //Coeficientes da função objetivo
+        // Coeficientes da função objetivo
         double[] c = {3, 5};
-        //Constante das equações de A 
+        // Constante das equações de A 
         double[] b = {4, 12, 18};
-        //Executa o teste para o problema
+        // Executa o teste para o problema
         teste(A, b, c);
     }
     
@@ -83,17 +83,17 @@ public class Principal {
      *     0      1   0    0    1     30
      */
     public static void testeCaso2() {
-        //Matriz A das equações de restrições
+        // Matriz A das equações de restrições
         double[][] A = {
             {20, 30},
             {1, 0},
             {0, 1,}
         };        
-        //Constante das equações de A 
+        // Constante das equações de A 
         double[] b = {1200, 40, 30};
-        //Coeficientes da função objetivo
+        // Coeficientes da função objetivo
         double[] c = {1000, 1800};
-        //Executa o teste para o problema
+        // Executa o teste para o problema
         teste(A, b, c);
     }
    
@@ -104,11 +104,11 @@ public class Principal {
      */
     public static void main(String[] args) {
         
-        //Executa o teste do caso 1
+        // Executa o teste do caso 1
         testeCaso1();        
         System.out.println("--------------------------------");
         
-        //Executa o teste do caso 2
+        // Executa o teste do caso 2
         testeCaso2();        
         System.out.println("--------------------------------");        
     }
