@@ -268,7 +268,7 @@ public class Simplex {
     /**
      * Retorna o vetor da solução primal.
      * 
-     * @return Vetor com a solução do problema.
+     * @return Vetor com a solução do problema das variáveis básica.
      */
     public double[] getPrimal() {
         double[] x = new double[n];
@@ -287,7 +287,7 @@ public class Simplex {
         //Função objetivo        
         System.out.println("A solução foi encontrada com " + getIteracoes() + " iterações");
         System.out.println("   z = " + getValor());
-        //Variáveis
+        //Variáveis básicas
         double[] x = getPrimal();
         for (int i = 0; i < x.length; i++) {
             System.out.println("x[" + (i+1) + "] = " + x[i]);
